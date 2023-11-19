@@ -1,0 +1,11 @@
+.section {
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin: 20px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
