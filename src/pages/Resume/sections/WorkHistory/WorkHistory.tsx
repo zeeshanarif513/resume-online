@@ -24,6 +24,10 @@ const WorkHistory: React.FC<WorkHistoryProps> = ({ onAddWork }) => {
     const work: Work = { jobTitle, companyName, startDate, endDate };
     onAddWork(work);
     setOpen(false);
+    setJobTitle('');
+    setCompanyName('');
+    setStartDate('');
+    setEndDate('');
   };
 
   return (
@@ -79,7 +83,7 @@ const WorkHistory: React.FC<WorkHistoryProps> = ({ onAddWork }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave} variant="contained" color="primary">
+          <Button onClick={handleSave} variant="contained" color="primary" disabled={ !jobTitle || !companyName || !startDate || !endDate }>
             Save
           </Button>
         </DialogActions>
