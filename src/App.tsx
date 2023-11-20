@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Home } from './pages/Home';
+import { Resume } from './pages/Resume';
+
 
 function App() {
 
@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Resume Online</h1>
-        <Home />
+        <Resume />
       </header>
     </div>
   );
