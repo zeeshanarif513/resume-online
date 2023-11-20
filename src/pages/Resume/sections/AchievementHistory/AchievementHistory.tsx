@@ -39,6 +39,8 @@ const AchievementsHistory: React.FC<AchievementsHistoryProps> = ({
     const achievement: Achievement = { title, description };
     onAddAchievement(achievement);
     setOpen(false);
+    setTitle("");
+    setDescription("");
   };
 
   return (
@@ -74,7 +76,7 @@ const AchievementsHistory: React.FC<AchievementsHistoryProps> = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave} variant="contained" color="primary">
+          <Button onClick={handleSave} variant="contained" color="primary"  disabled={!title || !description}>
             Save
           </Button>
         </DialogActions>
