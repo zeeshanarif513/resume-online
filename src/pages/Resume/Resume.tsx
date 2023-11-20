@@ -54,19 +54,6 @@ const Resume = () => {
     setSections(reorderedSections);
   };
 
-  const handleSectionChange = (
-    sectionIndex: number,
-    field: string,
-    value: string
-  ) => {
-    const updatedSections = [...sections];
-    updatedSections[sectionIndex].data = {
-      ...updatedSections[sectionIndex].data,
-      [field]: value,
-    };
-    setSections(updatedSections);
-   };
-
   const onDragEnd = (result: DropResult) => {
     // dropped outside the list
     if (!result.destination)  return;
