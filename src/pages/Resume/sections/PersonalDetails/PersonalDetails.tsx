@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, TextField } from '@mui/material';
 import { PersonalDetailsDto, PersonalDetailsSectionProps } from '../../../../types/pages/Home/PersonalDetails';
 
-const PersonalDetailsComponent: React.FC<PersonalDetailsSectionProps> = ({ onSave }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [address, setAddress] = useState('');
+const PersonalDetailsComponent: React.FC<PersonalDetailsSectionProps> = ({ onSave, personalInfo, isEditMode }) => {
+  const [name, setName] = useState(personalInfo?.name ? personalInfo.name :  '');
+  const [email, setEmail] = useState(personalInfo?.email ? personalInfo.email :  '');
+  const [phone, setPhone] = useState(personalInfo?.phone ? personalInfo.phone :  '');
+  const [linkedin, setLinkedin] = useState(personalInfo?.linkedin ? personalInfo.linkedin :  '');
+  const [address, setAddress] = useState(personalInfo?.address ? personalInfo.address :  '');
 
   const handleSave = () => {
     const details: PersonalDetailsDto = { name, email,phone,linkedin, address };
@@ -64,8 +64,8 @@ const PersonalDetailsComponent: React.FC<PersonalDetailsSectionProps> = ({ onSav
 </Grid>
 </Grid>
 <Box mt={2}>
-  <Button variant="contained" color="primary" onClick={handleSave}>
-    Save
+  <Button variant="contained" color="primary" onClick={handleSave} disabled={!name || !email || !phone || !linkedin || !address}>
+   {isEditMode ? 'Update' : 'Save'} 
   </Button>
 </Box>
 </div>

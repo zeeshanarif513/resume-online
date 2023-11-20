@@ -6,6 +6,7 @@ export interface PersonalDetailsDto {
     address: string;
   }
   export interface PersonalDetailsSectionProps {
-    initialDetails?: PersonalDetails;
+    isEditMode: boolean;
+    personalInfo?: PersonalDetails;
     onSave: (PersonalDetails) => void;
 }

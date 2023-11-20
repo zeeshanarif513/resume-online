@@ -3,11 +3,11 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { PersonalDetails, EducationSection, WorkHistory, AchievementHistory } from "./sections";
 import { DraggableSection } from "../../components/DraggableSection";
 import { StrictModeDroppable } from "../../components/StrictModeDroppable";
-import { Avatar, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Card,CardContent,Typography } from "@mui/material";
 import EducationIcon from '@mui/icons-material/CastForEducation';
 import WorkIcon from '@mui/icons-material/Work';
 import StarIcon from '@mui/icons-material/Star';
-
+import EditIcon from '@mui/icons-material/Edit';
 import { Education } from "../../types/pages/Home/Education";
 import { Achievement } from "../../types/pages/Home/Achievements.dto";
 
@@ -23,6 +23,7 @@ interface Section {
 }
 
 const Resume = () => {
+  const [isEditMode, setEditMode] = useState(false);
   const [sections, setSections] = useState<Section[]>([
     {
       id: "personalDetails",
@@ -81,15 +82,34 @@ const Resume = () => {
                     section={section}
                   >
   <div>
-      {section.data ? (
-         <div>
-         <p>Name: {section.data.name}</p>
-         <p>Email: {section.data.email}</p>
-         <p>LinkedIn: {section.data.linkedIn}</p>
-         <p>Address: {section.data.address}</p>
-       </div>
+      {section.data && !isEditMode ? (
+      <Card>
+      <CardContent>
+        <Typography variant="h5" gutterBottom>
+          Personal Details
+        </Typography>
+        <Typography variant="body1">
+          <strong>Name:</strong> {section.data.name}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Email:</strong> {section.data.email}
+        </Typography>
+        <Typography variant="body1">
+          <strong>LinkedIn:</strong> {section.data.linkedin}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Address:</strong> {section.data.address}
+        </Typography>
+        <IconButton onClick={()=>setEditMode(true)} color="primary">
+          <EditIcon />
+        </IconButton>
+      </CardContent>
+    </Card>
       ) : (
-        <PersonalDetails onSave={(personalDetail)=>handleAddSection("personalDetails", personalDetail)} />
+        <PersonalDetails isEditMode = {isEditMode} personalInfo = {section.data} onSave={(personalDetail)=>{
+        handleAddSection("personalDetails", personalDetail); 
+        setEditMode(false);
+      }} />
       )}
     </div>                    
                   </DraggableSection>
