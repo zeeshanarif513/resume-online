@@ -35,6 +35,8 @@ const EducationHistory: React.FC<EducationHistoryProps> = ({
     const education: Education = { degree, completionDate };
     onAddEducation(education);
     setOpen(false);
+    setDegree("");
+    setCompletionDate("");
   };
 
   return (
@@ -70,7 +72,7 @@ const EducationHistory: React.FC<EducationHistoryProps> = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave} variant="contained" color="primary">
+          <Button onClick={handleSave} variant="contained" color="primary" disabled={!degree || !completionDate}>
             Save
           </Button>
         </DialogActions>
