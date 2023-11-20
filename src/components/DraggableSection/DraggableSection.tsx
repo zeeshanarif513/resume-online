@@ -1,5 +1,5 @@
 // DraggableSection.tsx
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Paper, Typography } from '@mui/material';
 import { Draggable, DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
 
