@@ -1,10 +1,8 @@
-interface EducationDetails {
+export interface Education {
     degree: string;
     completionDate: string;
 }
 
-interface EducationSectionProps {
-    education: EducationDetails[];
+export interface EducationSectionProps {
     onAddEducation: () => void;
-    onChange: (index: number, field: keyof EducationDetails, value: string) => void;
 }
