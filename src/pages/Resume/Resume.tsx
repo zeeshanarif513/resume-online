@@ -1,20 +1,33 @@
 import React, { useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import { PersonalDetails, EducationSection, WorkHistory, AchievementHistory } from "./sections";
+import {
+  PersonalDetails,
+  EducationSection,
+  WorkHistory,
+  AchievementHistory,
+} from "./sections";
 import { DraggableSection } from "../../components/DraggableSection";
 import { StrictModeDroppable } from "../../components/StrictModeDroppable";
-import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Card,CardContent,Typography } from "@mui/material";
-import EducationIcon from '@mui/icons-material/CastForEducation';
-import WorkIcon from '@mui/icons-material/Work';
-import StarIcon from '@mui/icons-material/Star';
-import EditIcon from '@mui/icons-material/Edit';
+import {
+  Avatar,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import EducationIcon from "@mui/icons-material/CastForEducation";
+import WorkIcon from "@mui/icons-material/Work";
+import StarIcon from "@mui/icons-material/Star";
+import EditIcon from "@mui/icons-material/Edit";
 import { Education } from "../../types/pages/Home/Education";
 import { Achievement } from "../../types/pages/Home/Achievements.dto";
 
 import { Work } from "../../types/pages/Home/Work";
 import { PersonalDetailsDto } from "../../types/pages/Home/PersonalDetails";
-
-
 
 interface Section {
   id: string;
@@ -57,14 +70,19 @@ const Resume = () => {
 
   const onDragEnd = (result: DropResult) => {
     // dropped outside the list
-    if (!result.destination)  return;
+    if (!result.destination) return;
     handleReorder(result.source.index, result.destination.index);
   };
 
-  const handleAddSection = (id: string, item: Education | Work | Achievement | PersonalDetailsDto) => {
+  const handleAddSection = (
+    id: string,
+    item: Education | Work | Achievement | PersonalDetailsDto
+  ) => {
     const tempSection = [...sections];
     const index: number = tempSection.findIndex((section) => section.id === id);
-    Array.isArray(tempSection[index].data) ? tempSection[index].data.push(item) : tempSection[index].data = item;
+    Array.isArray(tempSection[index].data)
+      ? tempSection[index].data.push(item)
+      : (tempSection[index].data = item);
     setSections(tempSection);
   };
 
@@ -81,37 +99,39 @@ const Resume = () => {
                     index={index}
                     section={section}
                   >
-  <div>
-      {section.data && !isEditMode ? (
-      <Card>
-      <CardContent>
-        <Typography variant="h5" gutterBottom>
-          Personal Details
-        </Typography>
-        <Typography variant="body1">
-          <strong>Name:</strong> {section.data.name}
-        </Typography>
-        <Typography variant="body1">
-          <strong>Email:</strong> {section.data.email}
-        </Typography>
-        <Typography variant="body1">
-          <strong>LinkedIn:</strong> {section.data.linkedin}
-        </Typography>
-        <Typography variant="body1">
-          <strong>Address:</strong> {section.data.address}
-        </Typography>
-        <IconButton onClick={()=>setEditMode(true)} color="primary">
-          <EditIcon />
-        </IconButton>
-      </CardContent>
-    </Card>
-      ) : (
-        <PersonalDetails isEditMode = {isEditMode} personalInfo = {section.data} onSave={(personalDetail)=>{
-        handleAddSection("personalDetails", personalDetail); 
-        setEditMode(false);
-      }} />
-      )}
-    </div>                    
+                    <div>
+                      {section.data && !isEditMode ? (
+                        <div>
+                          <Typography variant="body1">
+                            <strong>Name:</strong> {section.data.name}
+                          </Typography>
+                          <Typography variant="body1">
+                            <strong>Email:</strong> {section.data.email}
+                          </Typography>
+                          <Typography variant="body1">
+                            <strong>LinkedIn:</strong> {section.data.linkedin}
+                          </Typography>
+                          <Typography variant="body1">
+                            <strong>Address:</strong> {section.data.address}
+                          </Typography>
+                          <IconButton
+                            onClick={() => setEditMode(true)}
+                            color="primary"
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </div>
+                      ) : (
+                        <PersonalDetails
+                          isEditMode={isEditMode}
+                          personalInfo={section.data}
+                          onSave={(personalDetail) => {
+                            handleAddSection("personalDetails", personalDetail);
+                            setEditMode(false);
+                          }}
+                        />
+                      )}
+                    </div>
                   </DraggableSection>
                 )}
                 {section.id === "education" && section.data !== undefined && (
@@ -122,24 +142,31 @@ const Resume = () => {
                       index={index}
                       section={section}
                     >
-                      {/* <ul> */}
-                      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-         
-  
-                      </List>
-                {sections
+                      <List
+                        sx={{
+                          width: "100%",
+                          maxWidth: 360,
+                          bgcolor: "background.paper",
+                        }}
+                      >
+                        {sections
                           .find((section) => section.id === "education")
                           ?.data.map((edu: Education, index: number) => {
                             return (
                               <ListItem>
-                              <ListItemAvatar>
-                                <Avatar>
-                                  <EducationIcon />
-                                </Avatar>
-                              </ListItemAvatar>
-                              <ListItemText primary={edu.degree} secondary={edu.completionDate}/>
-                            </ListItem>
-                          )})}
+                                <ListItemAvatar>
+                                  <Avatar>
+                                    <EducationIcon />
+                                  </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                  primary={edu.degree}
+                                  secondary={edu.completionDate}
+                                />
+                              </ListItem>
+                            );
+                          })}
+                      </List>
                       <EducationSection
                         onAddEducation={(education) =>
                           handleAddSection("education", education)
@@ -148,7 +175,7 @@ const Resume = () => {
                     </DraggableSection>
                   </div>
                 )}
-                  {section.id === "work" && section.data !== undefined && (
+                {section.id === "work" && section.data !== undefined && (
                   <div>
                     {/* Render existing work histories */}
                     <DraggableSection
@@ -156,16 +183,23 @@ const Resume = () => {
                       index={index}
                       section={section}
                     >
-                      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-         
-  
-                      </List>
-                {sections
-                          .find((section) => section.id === "work")
-                          ?.data.map((work: Work, index: number) => {
-                            return (
-                              <List
-                              sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                      <List
+                        sx={{
+                          width: "100%",
+                          maxWidth: 360,
+                          bgcolor: "background.paper",
+                        }}
+                      ></List>
+                      {sections
+                        .find((section) => section.id === "work")
+                        ?.data.map((work: Work, index: number) => {
+                          return (
+                            <List
+                              sx={{
+                                width: "100%",
+                                maxWidth: 360,
+                                bgcolor: "background.paper",
+                              }}
                               aria-label="work"
                             >
                               <ListItem disablePadding>
@@ -178,12 +212,18 @@ const Resume = () => {
                               </ListItem>
                               <ListItem disablePadding>
                                 <ListItemButton>
-                                  <ListItemText inset primary={work.companyName} />
+                                  <ListItemText
+                                    inset
+                                    primary={work.companyName}
+                                  />
                                 </ListItemButton>
                               </ListItem>
                               <ListItem disablePadding>
                                 <ListItemButton>
-                                  <ListItemText inset primary={work.startDate} />
+                                  <ListItemText
+                                    inset
+                                    primary={work.startDate}
+                                  />
                                 </ListItemButton>
                               </ListItem>
                               <ListItem disablePadding>
@@ -192,55 +232,66 @@ const Resume = () => {
                                 </ListItemButton>
                               </ListItem>
                             </List>
-                          )})}
+                          );
+                        })}
                       <WorkHistory
-                        onAddWork={(work) =>
-                          handleAddSection("work", work)
-                        }
+                        onAddWork={(work) => handleAddSection("work", work)}
                       />
                     </DraggableSection>
                   </div>
                 )}
-                     {section.id === "achievements" && section.data !== undefined && (
-                  <div>
-                    {/* Render existing work histories */}
-                    <DraggableSection
-                      key={section.id}
-                      index={index}
-                      section={section}
-                    >
-                {sections
+                {section.id === "achievements" &&
+                  section.data !== undefined && (
+                    <div>
+                      {/* Render existing work histories */}
+                      <DraggableSection
+                        key={section.id}
+                        index={index}
+                        section={section}
+                      >
+                        {sections
                           .find((section) => section.id === "achievements")
-                          ?.data.map((achievement: Achievement, index: number) => {
-                            return (          
-                              <List
-                              sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                              aria-label="achievements"
-                            >
-                              <ListItem disablePadding>
-                                <ListItemButton>
-                                  <ListItemIcon>
-                                    <StarIcon />
-                                  </ListItemIcon>
-                                  <ListItemText primary={achievement.title} />
-                                </ListItemButton>
-                              </ListItem>
-                              <ListItem disablePadding>
-                                <ListItemButton>
-                                  <ListItemText inset primary={achievement.description} />
-                                </ListItemButton>
-                              </ListItem>
-                             
-                            </List>
-                          )})}
-                      <AchievementHistory
-                        onAddAchievement={(achievement) =>
-                          handleAddSection("achievements", achievement)
-                        }
-                      />
-                    </DraggableSection>
-                  </div>
-                )}
+                          ?.data.map(
+                            (achievement: Achievement, index: number) => {
+                              return (
+                                <List
+                                  sx={{
+                                    width: "100%",
+                                    maxWidth: 360,
+                                    bgcolor: "background.paper",
+                                  }}
+                                  aria-label="achievements"
+                                >
+                                  <ListItem disablePadding>
+                                    <ListItemButton>
+                                      <ListItemIcon>
+                                        <StarIcon />
+                                      </ListItemIcon>
+                                      <ListItemText
+                                        primary={achievement.title}
+                                      />
+                                    </ListItemButton>
+                                  </ListItem>
+                                  <ListItem disablePadding>
+                                    <ListItemButton>
+                                      <ListItemText
+                                        inset
+                                        primary={achievement.description}
+                                      />
+                                    </ListItemButton>
+                                  </ListItem>
+                                </List>
+                              );
+                            }
+                          )}
+                        <AchievementHistory
+                          onAddAchievement={(achievement) =>
+                            handleAddSection("achievements", achievement)
+                          }
+                        />
+                      </DraggableSection>
+                    </div>
+                  )}
               </div>
             ))}
           </div>

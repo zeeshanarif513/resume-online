@@ -23,7 +23,7 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({ index, section, chi
           style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
         >
           <Paper className='container'>
-            <Typography variant="h6">{section.title}</Typography>
+            <Typography variant="h5" gutterBottom>{section.title}</Typography>
             {children}
           </Paper>
         </div>
