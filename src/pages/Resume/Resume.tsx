@@ -23,6 +23,8 @@ import EducationIcon from "@mui/icons-material/CastForEducation";
 import WorkIcon from "@mui/icons-material/Work";
 import StarIcon from "@mui/icons-material/Star";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import { Education } from "../../types/pages/Home/Education";
 import { Achievement } from "../../types/pages/Home/Achievements.dto";
 
@@ -75,14 +77,28 @@ const Resume = () => {
   };
 
   const handleAddSection = (
-    id: string,
-    item: Education | Work | Achievement | PersonalDetailsDto
+    sectionId: string,
+    item: Education | Work | Achievement | PersonalDetailsDto,
+    action: "Add" | "Delete" = "Add"
   ) => {
     const tempSection = [...sections];
-    const index: number = tempSection.findIndex((section) => section.id === id);
-    Array.isArray(tempSection[index].data)
-      ? tempSection[index].data.push(item)
-      : (tempSection[index].data = item);
+    const index: number = tempSection.findIndex(
+      (section) => section.id === sectionId
+    );
+    if (action === "Add") {
+      Array.isArray(tempSection[index].data)
+        ? tempSection[index].data.push(item)
+        : (tempSection[index].data = item);
+    } else if (action === "Delete") {
+      if (Array.isArray(tempSection[index].data)) {
+        tempSection[index].data = tempSection[index].data.filter(
+          (e: Education | Work | Achievement | PersonalDetailsDto) =>
+            JSON.stringify(e) !== JSON.stringify(item)
+        );
+      } else {
+        tempSection[index].data = null;
+      }
+    }
     setSections(tempSection);
   };
 
@@ -163,6 +179,14 @@ const Resume = () => {
                                   primary={edu.degree}
                                   secondary={edu.completionDate}
                                 />
+                                <IconButton
+                                  onClick={() =>
+                                    handleAddSection("education", edu, "Delete")
+                                  }
+                                  color="primary"
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
                               </ListItem>
                             );
                           })}
@@ -231,6 +255,14 @@ const Resume = () => {
                                   <ListItemText inset primary={work.endDate} />
                                 </ListItemButton>
                               </ListItem>
+                              <IconButton
+                                onClick={() =>
+                                  handleAddSection("work", work, "Delete")
+                                }
+                                color="primary"
+                              >
+                                <DeleteIcon />
+                              </IconButton>
                             </List>
                           );
                         })}
@@ -279,6 +311,18 @@ const Resume = () => {
                                         primary={achievement.description}
                                       />
                                     </ListItemButton>
+                                    <IconButton
+                                      onClick={() =>
+                                        handleAddSection(
+                                          "achievements",
+                                          achievement,
+                                          "Delete"
+                                        )
+                                      }
+                                      color="primary"
+                                    >
+                                      <DeleteIcon />
+                                    </IconButton>
                                   </ListItem>
                                 </List>
                               );
